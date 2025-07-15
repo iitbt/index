@@ -1,0 +1,173 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  background: linear-gradient(135deg, #5b6ee1 0%, #e16ba0 33%, #e1a16b 66%, #8a6ee1 100%);
+  color: #222;
+  animation: gradientAnimation 20s ease-in-out infinite;
+  background-size: 400% 400%;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  max-width: 950px;
+  margin: 40px auto;
+  padding: 40px 20px 20px 20px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px #0002;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 2.1rem;
+  letter-spacing: 2px;
+  color: #5b6ee1;
+  margin: 0 0 18px 0;
+}
+
+.admin-form {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.admin-form input {
+  border: 1.5px solid #e0e3e8;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background: #f8fafc;
+  transition: border 0.2s;
+  outline: none;
+  min-width: 120px;
+}
+
+.admin-form input:focus {
+  border: 1.5px solid #e16ba0;
+  background: #fff;
+}
+
+.admin-form button {
+  background: linear-gradient(90deg, #e16ba0 60%, #5b6ee1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #e16ba022;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-form button:hover {
+  background: linear-gradient(90deg, #5b6ee1 60%, #e16ba0 100%);
+  box-shadow: 0 4px 16px #e16ba033;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #0001;
+  background: #fafdff;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+th, td {
+  border: none;
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+th {
+  background: #f1f3f6;
+  color: #5b6ee1;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+tr {
+  transition: background 0.15s;
+}
+
+tr:hover {
+  background: #f0f6ff;
+}
+
+tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.actions button {
+  margin: 0 4px;
+  padding: 8px 18px;
+  font-size: 15px;
+  background: #e16ba0;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.actions button:hover {
+  background: #5b6ee1;
+}
+
+.success { color: #27ae60; }
+.error { color: #e74c3c; }
+
+#loginModal {
+  display: none;
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: #0005; z-index: 1000;
+  align-items: center; justify-content: center;
+}
+
+#loginModal .modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 28px;
+  box-shadow: 0 2px 24px #0003;
+  min-width: 320px;
+}
+
+#loginModal input {
+  width: 92%;
+  margin-bottom: 16px;
+  border: 1.5px solid #e0e3e8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+@media (max-width: 700px) {
+  .container { padding: 10px; }
+  .admin-form { flex-direction: column; gap: 10px; }
+  .table-wrapper { padding: 0; }
+  th, td { padding: 10px 4px; font-size: 14px; }
+}
