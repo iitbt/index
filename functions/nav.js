@@ -79,41 +79,13 @@ export async function onRequest(context) {
   }
 
   // PUT: 修改导航（按 id）
-  if (request.method === "PUT") {
-    try {
-      const body = await request.json();
-      if (!body.id) {
-        return new Response(JSON.stringify({ error: "Missing id" }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
-      }
-      // 只更新有传的字段
-      const fields = [];
-      const values = [];
-      if (body.group_name) { fields.push("group_name=?"); values.push(body.group_name); }
-      if (body.name) { fields.push("name=?"); values.push(body.name); }
-      if (body.url) { fields.push("url=?"); values.push(body.url); }
-      if (body.icon !== undefined) { fields.push("icon=?"); values.push(body.icon); }
-      if (fields.length === 0) {
-        return new Response(JSON.stringify({ error: "No fields to update" }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
-        });
-      }
-      values.push(body.id);
-      await env.nav_table.prepare(
-        `UPDATE nav_table SET ${fields.join(", ")} WHERE id=?`
-      ).bind(...values).run();
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    } catch (e) {
-      return new Response(JSON.stringify({ error: e.message }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
+  if (request.method === 'PUT' && url.pathname.startsWith('/nav/')) {
+    const id = url.pathname.split('/').pop();
+    const body = await request.json();
+    await env.nav_table.prepare(
+      'UPDATE nav_table SET group_name=?, name=?, url=?, icon=? WHERE id=?'
+    ).bind(body.group_name, body.name, body.url, body.icon, id).run();
+    return new Response('ok');
   }
 
   // DELETE: 删除导航（按 id）

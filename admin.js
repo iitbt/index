@@ -1,29 +1,94 @@
 // admin.js - 导航后台管理页面逻辑
 
+// 简单前端权限（演示用，生产请用后端鉴权）
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "123456";
+let isLogin = false;
+
+function showLogin() {
+  document.getElementById('loginModal').style.display = 'flex';
+}
+function hideLogin() {
+  document.getElementById('loginModal').style.display = 'none';
+}
+function login() {
+  const user = document.getElementById('loginUser').value;
+  const pass = document.getElementById('loginPass').value;
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    isLogin = true;
+    hideLogin();
+    loadNav();
+  } else {
+    document.getElementById('loginMsg').innerText = '用户名或密码错误';
+  }
+}
+if (!isLogin) showLogin();
+
+// 渲染表格
 async function loadNav() {
+  if (!isLogin) return;
   const res = await fetch('/nav');
   const data = await res.json();
   const tbody = document.querySelector('#navTable tbody');
   tbody.innerHTML = data.map(item => `
-    <tr>
+    <tr id="row-${item.id}">
       <td>${item.id}</td>
       <td>${item.group_name}</td>
       <td>${item.name}</td>
       <td><a href="${item.url}" target="_blank">${item.url}</a></td>
       <td>${item.icon}</td>
-      <td><button onclick="delNav(${item.id})">删除</button></td>
+      <td class="actions">
+        <button onclick="editRow(${item.id})">编辑</button>
+        <button onclick="delNav(${item.id})">删除</button>
+      </td>
     </tr>
   `).join('');
 }
 
+// 删除
 async function delNav(id) {
+  if (!isLogin) return showLogin();
   if (!confirm('确定删除？')) return;
   await fetch('/nav/' + id, { method: 'DELETE' });
   loadNav();
 }
 
+// 编辑
+function editRow(id) {
+  if (!isLogin) return showLogin();
+  const row = document.getElementById('row-' + id);
+  const tds = row.querySelectorAll('td');
+  const [idTd, groupTd, nameTd, urlTd, iconTd, actionsTd] = tds;
+  row.classList.add('edit-row');
+  groupTd.innerHTML = `<input value="${groupTd.textContent}">`;
+  nameTd.innerHTML = `<input value="${nameTd.textContent}">`;
+  urlTd.innerHTML = `<input value="${urlTd.textContent}">`;
+  iconTd.innerHTML = `<input value="${iconTd.textContent}">`;
+  actionsTd.innerHTML = `
+    <button onclick="saveRow(${id})">保存</button>
+    <button onclick="cancelEdit(${id})">取消</button>
+  `;
+}
+function cancelEdit(id) {
+  loadNav();
+}
+async function saveRow(id) {
+  if (!isLogin) return showLogin();
+  const row = document.getElementById('row-' + id);
+  const inputs = row.querySelectorAll('input');
+  const [group_name, name, url, icon] = Array.from(inputs).map(i => i.value);
+  await fetch('/nav/' + id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ group_name, name, url, icon })
+  });
+  loadNav();
+}
+
+// 新增
 document.getElementById('addForm').onsubmit = async e => {
   e.preventDefault();
+  if (!isLogin) return showLogin();
   const form = e.target;
   await fetch('/nav', {
     method: 'POST',
@@ -39,4 +104,11 @@ document.getElementById('addForm').onsubmit = async e => {
   loadNav();
 };
 
-loadNav();
+window.loadNav = loadNav;
+window.delNav = delNav;
+window.editRow = editRow;
+window.cancelEdit = cancelEdit;
+window.saveRow = saveRow;
+window.login = login;
+
+if (isLogin) loadNav();
