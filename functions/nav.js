@@ -1,8 +1,10 @@
 
 export async function onRequest(context) {
   const { request, env } = context;
+  const origin = request.headers.get("Origin") || "*";
   const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": origin,
+    "Vary": "Origin",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type"
   };
