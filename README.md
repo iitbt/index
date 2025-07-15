@@ -57,7 +57,7 @@ node nav-api.js
 看到“导航API服务已启动: http://localhost:3000”即成功。
 
 ### 6. 前端页面配置
-- `index.js` 会自动优先从 Cloudflare API 获取导航数据，失败时自动尝试本地 API，仍失败则用初始 groups 数据。
+- `index.js` 会自动优先从云端 API（Cloudflare 部署时为当前域名 /nav）获取导航数据，失败时自动尝试本地 API（http://localhost:3000/nav），仍失败则用初始 groups 数据。
 - 用浏览器打开 `index.html` 即可访问导航页面。
 
 ---
@@ -76,28 +76,20 @@ node nav-api.js
 - 选择 “Connect to Git” → 选择 GitHub → 授权 Cloudflare 访问你的 GitHub 仓库
 - 选择你上传的导航项目仓库
 
-### 4. 配置构建设置
-- **Framework preset** 选择 “None”
-- **Build command** 留空（或填 `echo skip`，因为是静态资源/Worker 脚本）
-- **Output directory** 填写 `index`（即你的前端文件夹名）
-- **Environment variables** 可选，若有特殊配置需求可添加
 
-### 5. 配置 D1 数据库
+### 4. 配置 D1 数据库
 - 在 Cloudflare Dashboard → Workers & Pages → D1，创建数据库（如 nav_table）
 - 在 Pages 项目设置 → Functions → D1 Bindings，添加 D1 数据库绑定
   - Variable name 填 `nav_table`
   - Database 选择你的 D1 数据库
 
+### 5. 再次部署
+- 在部署成功的页面点击 “查看详细信息”，选择 “部署管理” ，点击 “重试部署”。
+- 因为添加 D1 数据库绑定后需要重新部署才能生效。
+
 ### 6. 自动部署
 - 每次你 Push 代码到 GitHub，Cloudflare 会自动检测并自动部署到 Workers + D1
 - 部署完成后，Cloudflare 会分配一个公开访问地址（如 `https://your-project.pages.dev` 或 `https://your-worker-name.workers.dev`）
-
-### 7. 配置前端
-- 在 `index.js` 里，将 API 地址改为你的 Cloudflare Pages/Workers 线上地址：
-
-  ```js
-  fetch('https://your-project.pages.dev/api1/nav')
-  ```
 
 - 用浏览器打开 `index.html` 即可访问导航页面
 

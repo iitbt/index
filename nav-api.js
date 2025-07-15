@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 });
 
 // 导航数据接口
-app.get('/api/nav', (req, res) => {
+app.get('/nav', (req, res) => {
   db.query('SELECT * FROM nav_table', (err, results) => {
     if (err) {
       res.status(500).json({ error: '数据库读取失败' });
