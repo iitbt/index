@@ -20,37 +20,9 @@ export async function onRequest(context) {
   }
 
   // GET: 查询所有导航，分组返回
-  if (request.method === "GET") {
-    try {
-      const { results } = await env.nav_table.prepare(
-        "SELECT id, group_name, name, url, icon FROM nav_table"
-      ).all();
-
-      // 分组
-      const grouped = {};
-      for (const item of results) {
-        if (!grouped[item.group_name]) grouped[item.group_name] = [];
-        grouped[item.group_name].push({
-          id: item.id,
-          name: item.name,
-          url: item.url,
-          icon: item.icon
-        });
-      }
-      const groups = Object.keys(grouped).map(groupName => ({
-        name: groupName,
-        list: grouped[groupName]
-      }));
-
-      return new Response(JSON.stringify(groups), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    } catch (e) {
-      return new Response(JSON.stringify({ error: e.message }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" }
-      });
-    }
+  if (request.method === 'GET' && url.pathname === '/nav') {
+    const { results } = await env.DB.prepare('SELECT * FROM nav_table').all();
+    return Response.json(results); // 直接返回数组
   }
 
   // POST: 新增导航（支持单条/多条）
