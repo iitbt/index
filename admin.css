@@ -188,31 +188,6 @@ tr:nth-child(even) {
   font-size: 15px;
 }
 
-.login-btn {
-  width: 100%;
-  background: linear-gradient(90deg, #5b6ee1 60%, #e16ba0 100%);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px #5b6ee122;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.login-btn:hover {
-  background: linear-gradient(90deg, #e16ba0 60%, #5b6ee1 100%);
-  box-shadow: 0 4px 16px #e16ba033;
-}
-
 /* 手机端适配 */
 @media (max-width: 700px) {
   .container {
