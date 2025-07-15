@@ -93,6 +93,7 @@ table {
   background: transparent;
   border-radius: 16px;
   overflow: hidden;
+  min-width: 600px;
 }
 
 th, td {
@@ -165,9 +166,49 @@ tr:nth-child(even) {
   font-size: 15px;
 }
 
+.login-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #5b6ee1 60%, #e16ba0 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #5b6ee122;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(90deg, #e16ba0 60%, #5b6ee1 100%);
+  box-shadow: 0 4px 16px #e16ba033;
+}
+
+/* 手机端适配 */
 @media (max-width: 700px) {
-  .container { padding: 10px; }
+  .container {
+    padding: 8px;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .header { margin-bottom: 18px; }
+  h2 { font-size: 1.3rem; }
   .admin-form { flex-direction: column; gap: 10px; }
-  .table-wrapper { padding: 0; }
-  th, td { padding: 10px 4px; font-size: 14px; }
+  .admin-form input, .admin-form button { font-size: 15px; padding: 8px 10px; min-width: 0; }
+  .table-wrapper { padding: 0; border-radius: 10px; }
+  table { min-width: 400px; font-size: 13px; }
+  th, td { padding: 8px 4px; font-size: 13px; }
+  .modal-content { min-width: 220px; padding: 18px 8px; }
+  .login-btn {
+    font-size: 1rem;
+    padding: 10px 0;
+  }
 }
