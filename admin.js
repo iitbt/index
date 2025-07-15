@@ -58,20 +58,18 @@ async function loadNav() {
       <td>${item.icon ?? ''}</td>
       <td class="actions">
         <button type="button" onclick="editRow(${item.id})">编辑</button>
-        <button type="button" onclick="delNav(${item.id}, '${item.group_name.replace(/'/g, "\\'")}')">删除</button>
+        <button type="button" onclick="delNav(${item.id})">删除</button>
       </td>
     </tr>
   `).join('');
 }
 
 // 删除
-async function delNav(id, group_name) {
+async function delNav(id) {
   if (!isLogin) return showLogin();
   if (!confirm('确定删除？')) return;
-  await fetch('/nav/' + id, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ group_name })
+  await fetch(`/nav?id=${id}`, {
+    method: 'DELETE'
   });
   loadNav();
 }
