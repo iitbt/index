@@ -28,15 +28,34 @@ if (!isLogin) showLogin();
 async function loadNav() {
   if (!isLogin) return;
   const res = await fetch('/nav');
-  const data = await res.json();
+  let data = await res.json();
+
+  // 扁平化分组数据
+  let flat = [];
+  if (Array.isArray(data)) {
+    data.forEach(group => {
+      if (Array.isArray(group.list)) {
+        group.list.forEach(item => {
+          flat.push({
+            id: item.id,
+            group_name: group.name, // 分组名
+            name: item.name,
+            url: item.url,
+            icon: item.icon
+          });
+        });
+      }
+    });
+  }
+  // 渲染表格
   const tbody = document.querySelector('#navTable tbody');
-  tbody.innerHTML = data.map(item => `
+  tbody.innerHTML = flat.map(item => `
     <tr id="row-${item.id}">
-      <td>${item.id}</td>
-      <td>${item.group_name}</td>
-      <td>${item.name}</td>
-      <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-      <td>${item.icon}</td>
+      <td>${item.id ?? ''}</td>
+      <td>${item.group_name ?? ''}</td>
+      <td>${item.name ?? ''}</td>
+      <td><a href="${item.url ?? '#'}" target="_blank">${item.url ?? ''}</a></td>
+      <td>${item.icon ?? ''}</td>
       <td class="actions">
         <button onclick="editRow(${item.id})">编辑</button>
         <button onclick="delNav(${item.id})">删除</button>
