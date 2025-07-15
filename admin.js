@@ -99,7 +99,6 @@ async function saveRow(id) {
   const inputs = row.querySelectorAll('input');
   const [group_name, name, url, icon] = Array.from(inputs).map(i => i.value.trim());
 
-  // 简单校验
   if (!group_name || !name || !url) {
     alert('分组、名称、网址不能为空！');
     return;
@@ -112,7 +111,18 @@ async function saveRow(id) {
   });
 
   if (res.ok) {
-    loadNav();
+    // 尝试解析json
+    let result;
+    try {
+      result = await res.json();
+    } catch {
+      result = null;
+    }
+    if (result && result.success) {
+      loadNav();
+    } else {
+      alert('保存失败：' + (result && result.error ? result.error : '未知错误'));
+    }
   } else {
     const msg = await res.text();
     alert('保存失败：' + msg);

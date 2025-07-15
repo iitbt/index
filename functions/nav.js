@@ -1,4 +1,3 @@
-
 export async function onRequest(context) {
   const { request, env } = context;
   const origin = request.headers.get("Origin") || "*";
@@ -85,7 +84,9 @@ export async function onRequest(context) {
     await env.nav_table.prepare(
       'UPDATE nav_table SET group_name=?, name=?, url=?, icon=? WHERE id=?'
     ).bind(body.group_name, body.name, body.url, body.icon, id).run();
-    return new Response('ok');
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { "Content-Type": "application/json" }
+    });
   }
 
   // DELETE: 删除导航（按 id）
