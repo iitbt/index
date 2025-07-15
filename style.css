@@ -51,136 +51,6 @@ body {
   letter-spacing: 1px;
 }
 
-.search-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 30px 0 40px 0;
-  background: rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 12px 20px;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.search-engines {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 12px;
-  transition: all 0.3s ease;
-}
-
-.search-engine-toggle {
-  display: none;
-  width: 30px;
-  height: 30px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 50%;
-  color: #fff;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.search-engine-toggle i {
-  font-size: 16px;
-}
-
-.search-engines.hidden {
-  height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  opacity: 0;
-}
-
-.search-engine-option {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: all 0.2s;
-  position: relative;
-  user-select: none;
-}
-
-.search-engine-option:hover {
-  background: rgba(255,255,255,0.1);
-}
-
-.search-engine-option input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.search-engine-option input:checked + img {
-  transform: scale(1.1);
-}
-
-.search-engine-option input:checked ~ span {
-  color: #e16ba0;
-  font-weight: bold;
-}
-
-.search-engine-option input:checked ~ * {
-  transform: scale(1.05);
-}
-
-.search-engine-option.active {
-  background: rgba(255,255,255,0.2);
-}
-
-.search-engine-option img {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.2s;
-}
-
-.search-engine-option span {
-  color: #fff;
-  font-size: 0.9rem;
-}
-
-.search-input-wrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-
-.search-input-wrapper input {
-  flex: 1;
-  font-size: 1.1rem;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #fff;
-  padding: 8px 10px;
-}
-
-.search-input-wrapper button {
-  background: #fff;
-  color: #5b6ee1;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 1rem;
-  margin-left: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.search-input-wrapper button:hover {
-  background: #e16ba0;
-  color: #fff;
-}
-
 .status-row {
   display: flex;
   gap: 18px;
@@ -387,7 +257,81 @@ body {
   width: calc(100% - 46px);
 }
 
+/* 折叠面板样式美化 */
+.collapsible-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  padding: 0.9em 1.2em 0.9em 0.8em;
+  margin-bottom: 6px;
+  border-radius: 14px;
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
+  box-shadow: 0 4px 18px 0 rgba(60,40,120,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.08);
+  color: #fff;
+  position: relative;
+  transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+  z-index: 1;
+}
+.collapsible-header:hover,
+.collapsible-header.active {
+  background: linear-gradient(90deg, #e1a16b 0%, #e16ba0 100%);
+  color: #fff;
+  box-shadow: 0 6px 24px 0 rgba(225,107,160,0.13), 0 2px 8px 0 rgba(0,0,0,0.10);
+}
+.collapsible-header .arrow {
+  margin-left: 12px;
+  font-size: 1.1em;
+  transition: transform 0.45s cubic-bezier(.68,-0.55,.27,1.55), color 0.3s;
+  color: #fff;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.12));
+}
+.collapsible-header .arrow.open {
+  transform: rotate(180deg) scale(1.15);
+  color: #e1a16b;
+}
+.collapsible-header.active .arrow {
+  color: #e1a16b;
+}
+
+.collapsible-content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.4s;
+  will-change: max-height, opacity;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.collapsible-content.open {
+  opacity: 1;
+  max-height: 1000px; /* 足够大即可 */
+  margin-bottom: 18px;
+}
+
+/* 保证收起时不占空间 */
+.collapsible-content:not(.open) {
+  margin-bottom: 0;
+}
+
+/* 兼容原有卡片布局 */
+.card-list {
+  transition: none;
+}
+
+/* 适配移动端分组标题 */
 @media (max-width: 700px) {
+  .collapsible-header {
+    font-size: 1.01rem;
+    padding: 0.7em 0.8em 0.7em 0.7em;
+    margin-bottom: 4px;
+  }
   .container { 
     padding: 10px; 
   }
@@ -416,24 +360,5 @@ body {
   .status-card .value {
     font-size: 0.9rem;
     margin-left: 5px;
-  }
-  .search-engines {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-  .search-engine-option {
-    padding: 4px 8px;
-    gap: 4px;
-  }
-  .search-engine-option img {
-    width: 16px;
-    height: 16px;
-  }
-  .search-engine-option span {
-    font-size: 0.8rem;
-  }
-  .search-engine-toggle {
-    display: flex;
   }
 }
