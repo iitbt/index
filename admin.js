@@ -97,13 +97,26 @@ async function saveRow(id) {
   if (!isLogin) return showLogin();
   const row = document.getElementById('row-' + id);
   const inputs = row.querySelectorAll('input');
-  const [group_name, name, url, icon] = Array.from(inputs).map(i => i.value);
-  await fetch('/nav/' + id, {
+  const [group_name, name, url, icon] = Array.from(inputs).map(i => i.value.trim());
+
+  // 简单校验
+  if (!group_name || !name || !url) {
+    alert('分组、名称、网址不能为空！');
+    return;
+  }
+
+  const res = await fetch('/nav/' + id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ group_name, name, url, icon: icon || '' })
   });
-  loadNav();
+
+  if (res.ok) {
+    loadNav();
+  } else {
+    const msg = await res.text();
+    alert('保存失败：' + msg);
+  }
 }
 
 // 新增
