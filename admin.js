@@ -57,18 +57,22 @@ async function loadNav() {
       <td><a href="${item.url ?? '#'}" target="_blank">${item.url ?? ''}</a></td>
       <td>${item.icon ?? ''}</td>
       <td class="actions">
-        <button onclick="editRow(${item.id})">编辑</button>
-        <button onclick="delNav(${item.id})">删除</button>
+        <button type="button" onclick="editRow(${item.id})">编辑</button>
+        <button type="button" onclick="delNav(${item.id}, '${item.group_name.replace(/'/g, "\\'")}')">删除</button>
       </td>
     </tr>
   `).join('');
 }
 
 // 删除
-async function delNav(id) {
+async function delNav(id, group_name) {
   if (!isLogin) return showLogin();
   if (!confirm('确定删除？')) return;
-  await fetch('/nav/' + id, { method: 'DELETE' });
+  await fetch('/nav/' + id, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ group_name })
+  });
   loadNav();
 }
 
@@ -84,8 +88,8 @@ function editRow(id) {
   urlTd.innerHTML = `<input value="${urlTd.textContent}">`;
   iconTd.innerHTML = `<input value="${iconTd.textContent}">`;
   actionsTd.innerHTML = `
-    <button onclick="saveRow(${id})">保存</button>
-    <button onclick="cancelEdit(${id})">取消</button>
+    <button type="button" onclick="saveRow(${id})">保存</button>
+    <button type="button" onclick="cancelEdit(${id})">取消</button>
   `;
 }
 function cancelEdit(id) {
@@ -99,7 +103,7 @@ async function saveRow(id) {
   await fetch('/nav/' + id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ group_name, name, url, icon })
+    body: JSON.stringify({ group_name, name, url, icon: icon || '' })
   });
   loadNav();
 }
@@ -116,7 +120,7 @@ document.getElementById('addForm').onsubmit = async e => {
       group_name: form.group_name.value,
       name: form.name.value,
       url: form.url.value,
-      icon: form.icon.value
+      icon: form.icon.value || ''
     })
   });
   form.reset();
