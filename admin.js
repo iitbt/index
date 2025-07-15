@@ -91,4 +91,12 @@ window.loadNav = loadNav;
 window.delNav = delNav;
 window.login = login;
 
+// 支持回车登录
+document.getElementById('loginPass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') login();
+});
+document.getElementById('loginUser').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') login();
+});
+
 if (isLogin) loadNav();
