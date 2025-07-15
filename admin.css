@@ -79,6 +79,28 @@ h2 {
   box-shadow: 0 4px 16px #e16ba033;
 }
 
+/* 通用按钮样式（添加/登录） */
+.admin-btn, .admin-form button {
+  background: linear-gradient(90deg, #e16ba0 60%, #5b6ee1 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #e16ba022;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.admin-btn:hover, .admin-form button:hover {
+  background: linear-gradient(90deg, #5b6ee1 60%, #e16ba0 100%);
+  box-shadow: 0 4px 16px #e16ba033;
+}
+
 .table-wrapper {
   overflow-x: auto;
   border-radius: 16px;
@@ -210,5 +232,10 @@ tr:nth-child(even) {
   .login-btn {
     font-size: 1rem;
     padding: 10px 0;
+  }
+  .admin-btn, .admin-form button {
+    font-size: 1rem;
+    padding: 10px 0;
+    min-width: 0;
   }
 }
