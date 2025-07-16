@@ -1,7 +1,17 @@
 // admin.js - 导航后台管理页面逻辑
 
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "123456";
+let ADMIN_USER = "admin";
+let ADMIN_PASS = "123456";
+
+// 优先尝试读取 /env 变量（无论本地还是线上）
+fetch('/env')
+  .then(res => res.ok ? res.json() : null)
+  .then(env => {
+    if (env && env.ADMIN_USER) ADMIN_USER = env.ADMIN_USER;
+    if (env && env.ADMIN_PASS) ADMIN_PASS = env.ADMIN_PASS;
+  })
+  .catch(() => {});
+
 let isLogin = false;
 
 function showLogin() {
