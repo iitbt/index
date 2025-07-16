@@ -263,6 +263,19 @@ npx wrangler d1 execute <数据库名> --remote --file=./nav_table.sql
 
 ---
 
+### 7. 后台管理页面登录安全与环境变量配置
+
+#### 7.1 Cloudflare Pages 环境变量注入
+
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. 进入你的 Pages 项目 → Settings → Environment variables
+3. 添加两个变量：
+   - `ADMIN_USER`（管理员用户名）
+   - `ADMIN_PASS`（管理员密码）
+4. 保存后重新部署项目
+
+> 参考官方文档：[Cloudflare Pages 环境变量设置](https://developers.cloudflare.com/pages/configuration/build-configuration/#environment-variables)
+
 ### 8. 后台管理页面
 
 
