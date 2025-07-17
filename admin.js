@@ -1,5 +1,7 @@
 // admin.js - 导航后台管理页面逻辑
 
+const ADMIN_PANEL_VERSION = "1.0.5";
+
 let ADMIN_USER = "admin";
 let ADMIN_PASS = "123456";
 
@@ -11,6 +13,12 @@ fetch('/env')
     if (env && env.ADMIN_PASS) ADMIN_PASS = env.ADMIN_PASS;
   })
   .catch(() => {});
+
+// 动态设置版本号
+window.addEventListener('DOMContentLoaded', function() {
+  const verEl = document.getElementById('admin-version');
+  if (verEl) verEl.textContent = `导航后台管理 v${ADMIN_PANEL_VERSION}`;
+});
 
 let isLogin = false;
 
