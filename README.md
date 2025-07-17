@@ -71,7 +71,7 @@ node nav-api.js
 - 如果你还没有 GitHub 账号，请先注册 [GitHub](https://github.com/)。
 - 将本项目上传到你的 GitHub 仓库，或直接 Fork 本项目。
 
-### 3. 在 Cloudflare 部署看图片。
+### 3. 在 Cloudflare 部署如下：。
 
 ![步骤1](img/01.png)
 ![步骤2](img/02.png)
