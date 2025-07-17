@@ -6,11 +6,11 @@ const port = 3000;
 
 // 数据库连接配置
 const db = mysql.createConnection({
-  host: 'mysql5.sqlpub.com',
+  host: 'mysql.sqlpub.com',
   port: 3310,
-  user: 'username_lyjx',
-  password: 'qJgjVpT2Tokbo2wE',
-  database: 'lyjx_xapp'
+  user: 'username',
+  password: '******',
+  database: '******'
 });
 
 // 允许跨域
